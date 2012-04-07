@@ -1,0 +1,5 @@
+obj\x86\Debug\Biolinformatics 1 Project.exe
+obj\x86\Debug\Biolinformatics 1 Project.pdb
+obj\x86\Debug\ResolveAssemblyReference.cache
+bin\Debug\Biolinformatics 1 Project.exe
+bin\Debug\Biolinformatics 1 Project.pdb

@@ -1,0 +1,233 @@
+//hin:HI0002
+//1824 bases long
+
+import java.util.Random;
+
+public class Program
+{
+	static KeyboardInputClass keyboardInput = new KeyboardInputClass();
+	static TextFileClass textFile = new TextFileClass(0);
+	static Random randomNumber = new Random();
+	static String[] sequence = new String[1];
+
+	public static void main(String[] args)
+	{
+		System.out.println("A Model of Shotgun Sequencing");
+		System.out.println();
+		System.out.println("1 - Randomly generate a sequence");
+		System.out.println("2 - Enter a sequence from a text file");
+		System.out.println("3 - Enter a sequence manually");
+		System.out.println();
+		int choice = Integer.parseInt(keyboardInput.getKeyboardInput("Please Enter a Menu Choice"));
+
+		System.out.println();
+
+		if ((choice == 1) || (choice > 3))
+		{
+			//In Venter's first shotgun sequencing project.  He had approximately 1.8 million nucleotides.
+			//He divided them into 20,000 or 30,000 segments.  That ratio comes to 100 nucleotides to 1.6 fragments.
+			choice = Integer.parseInt(keyboardInput.getKeyboardInput("How long would you like the random sequence to be? (length of 500 suggested)"));
+			int pass = 0;
+			StringBuffer sb = new StringBuffer();
+
+			while (pass < choice)
+			{
+				int number = randomNumber.nextInt(4);
+				if (number == 1)
+				{
+					sb.append("A");
+					pass++;
+				}
+				if (number == 2)
+				{
+					sb.append("T");
+					pass++;
+				}
+				if (number == 3)
+				{
+					sb.append("G");
+					pass++;
+				}
+				if (number == 4)
+				{
+					sb.append("C");
+					pass++;
+				}
+			}
+
+			String sequenceString = sb.toString();
+			sequence[0] = sequenceString;
+			replicate(sequence);
+		}
+
+		if (choice == 2)
+		{
+			textFile.getFileName("Specify the text file to be read");
+			String stringSequence = "";
+			StringBuffer add = new StringBuffer();
+			if (textFile.fileName.length() > 0)
+			{
+				int total = textFile.getFileContents();
+				for (int i = 0; i < total; i++)
+				{
+					int count = (textFile.text[i]).length();
+					for (int j = 0; j < count; j++)
+					{
+						add.append((textFile.text[i]).charAt(j));
+					}
+				}
+				stringSequence = add.ToString();
+				sequence[0] = stringSequence;
+				replicate(sequence);
+			}
+		}
+
+		if (choice == 3)
+		{
+			String manual = keyboardInput.getKeyboardInput("Please enter the desired sequence");
+			sequence[0] = manual;
+
+			replicate(sequence);
+		}
+	}
+
+	public static void replicate(String[] sequence)
+	{
+		System.out.println();
+		System.out.println("sequence: " + sequence[0]);
+		System.out.println();
+		int replicationNumber = Integer.parseInt(keyboardInput.getKeyboardInput("How many copies of the sequence would you like to make?"));
+		String[] replicationArray = new String[replicationNumber];
+		System.out.println();
+
+		for (int i = 0; i < replicationNumber; i++)
+		{
+			replicationArray[i] = sequence[0];
+			System.out.println("RA: " + replicationArray[0]);
+		}
+		partitionGenome(replicationArray, replicationNumber);
+	}
+
+	public static void partitionGenome(String[] replicationArray, int replicationNumber)
+	{
+		Random randomNumber2 = new Random();
+		LList spliceLengths = new LList();
+		LList spliceSequence = new LList();
+		int lengthOfGenome = replicationArray[0].length();
+		int beginning = 0;
+
+		System.out.println();
+		int spliceNumber = Integer.parseInt(keyboardInput.getKeyboardInput("After how many positions would you like to splice the sequence (recommended 1.6:100 ratio)?"));
+		System.out.println();
+		int fluctuation = Integer.parseInt(keyboardInput.getKeyboardInput("How many positions would you like the splice number to fluctuate?"));
+		System.out.println();
+		int totalNeededSplices = ((lengthOfGenome / fluctuation) * replicationNumber);
+		int pass = 0;
+		int lowestNumber = lengthOfGenome;
+		int totalCount = 0;
+
+		while (pass < totalNeededSplices)
+		{
+			int randomNumber = randomNumber2.nextInt((fluctuation * 2));
+			int partitionValue = ((spliceNumber - fluctuation) + randomNumber);
+			Integer Int = new Integer(partitionValue);
+			spliceLengths.add(Int);
+			pass++;
+		}
+
+		for (int i = 0; i < spliceLengths.getLength(); i++)
+		{
+			int entry = ((Integer)(spliceLengths.getEntry(i + 1))).intValue();
+			int bounds = replicationArray[0].length();
+
+			if ((entry + beginning) <= bounds)
+			{
+				String sequence = replicationArray[0];
+				int end = beginning + entry;
+				String splice = sequence.substring(beginning, end);
+				if ((splice.length()) < lowestNumber)
+					lowestNumber = splice.length();
+				spliceSequence.add((Object)splice);
+				beginning = beginning + entry;
+				totalCount = totalCount + splice.length();
+			}
+
+			else
+			{
+				String sequence = replicationArray[0];
+				String splice = sequence.substring((bounds - entry), bounds);
+				if ((splice.length()) < lowestNumber)
+					lowestNumber = splice.length();
+				spliceSequence.add((Object)splice);
+				totalCount = totalCount + splice.length();
+			}
+		}
+		calculate(spliceSequence, spliceNumber, lowestNumber);
+	}
+
+	public static void calculate(LList spliceSequence, int spliceNumber, int lowestNumber)
+	{
+		int overlap = Integer.parseInt(keyboardInput.getKeyboardInput("How long would you like the overlap to be between the two sequences?"));
+		if (overlap >= spliceNumber)
+			overlap = (int)(spliceNumber / 2);
+
+		String spliceOne = (String)spliceSequence.getEntry(1);
+		int spliceOneLength = spliceOne.length();
+		int i = 1;
+		int iterate = Integer.parseInt(keyboardInput.getKeyboardInput("\nHow many times would you like the list to iterate?"));
+
+		for (int j = 0; j < iterate; j++)
+		{
+			while (i <= spliceSequence.getLength())
+			{
+				String spliceTwo = (String)spliceSequence.getEntry(i + 1);
+				if (spliceTwo == null)
+					break;
+
+				String oneBeginning = spliceOne.substring(0, overlap);
+				String oneEnd = spliceOne.substring((spliceOneLength - overlap), spliceOneLength);
+				boolean answer = genome[i].Contains(searchString);
+
+				if (spliceTwo.indexOf(oneBeginning) >= 0)
+				{
+					//compares left side of the first splice
+					int cut = spliceTwo.indexOf(oneBeginning);
+					StringBuffer two = new StringBuffer(spliceTwo);
+					String add = two.substring(0, cut);
+					StringBuffer addString = new StringBuffer(add);
+					addString.append(spliceOne);
+					String entry = addString.ToString();
+					spliceSequence.remove(1);
+					spliceSequence.remove(i + 1);
+					spliceSequence.add(1, (Object)entry);
+					i++;
+					System.out.print("LeftEntry: " + entry);
+					break;
+				}
+
+				if (spliceTwo.indexOf(oneEnd) >= 0)
+				{
+					//compares on the right side of the first splice
+					int cut = spliceTwo.indexOf(oneEnd);
+					StringBuffer one = new StringBuffer(spliceOne);
+					String add = spliceTwo.substring((cut + overlap), spliceTwo.length());
+					one.append(add);
+					String entry = one.ToString();
+					spliceSequence.remove(1);
+					spliceSequence.remove(i + 1);
+					spliceSequence.add(1, (Object)entry);
+					i++;
+					System.out.print("RightEntry: " + entry);
+				}
+				i++;
+			}
+			//String iterateChoice = keyboardInput.getKeyboardInput("\nPress ENTER to iterate through the comparisons.");
+			//if (iterateChoice != "N")
+			//{
+			//    System.out.println("\nCurrent Result: " + spliceSequence.getEntry(1));
+			//}
+			i = 1;
+		}
+		System.out.println("\n\nThe reassembled sequence is: " + spliceSequence.getEntry(1));
+	}
+}

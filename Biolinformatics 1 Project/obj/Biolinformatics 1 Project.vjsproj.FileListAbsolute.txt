@@ -1,0 +1,10 @@
+C:\Documents and Settings\Josh.USER-BF33A6337D\My Documents\Visual Studio 2005\Projects\Biolinformatics 1 Project\Biolinformatics 1 Project\obj\x86\Debug\Biolinformatics 1 Project.exe
+C:\Documents and Settings\Josh.USER-BF33A6337D\My Documents\Visual Studio 2005\Projects\Biolinformatics 1 Project\Biolinformatics 1 Project\obj\x86\Debug\Biolinformatics 1 Project.pdb
+C:\Documents and Settings\Josh.USER-BF33A6337D\My Documents\Visual Studio 2005\Projects\Biolinformatics 1 Project\Biolinformatics 1 Project\bin\Debug\Biolinformatics 1 Project.exe
+C:\Documents and Settings\Josh.USER-BF33A6337D\My Documents\Visual Studio 2005\Projects\Biolinformatics 1 Project\Biolinformatics 1 Project\bin\Debug\Biolinformatics 1 Project.pdb
+C:\Documents and Settings\Josh.USER-BF33A6337D\My Documents\Visual Studio 2005\Projects\Biolinformatics 1 Project\Biolinformatics 1 Project\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\Biolinformatics 1 Project\Biolinformatics 1 Project\obj\x86\Debug\Biolinformatics 1 Project.exe
+E:\Biolinformatics 1 Project\Biolinformatics 1 Project\obj\x86\Debug\Biolinformatics 1 Project.pdb
+E:\Biolinformatics 1 Project\Biolinformatics 1 Project\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\Biolinformatics 1 Project\Biolinformatics 1 Project\bin\Debug\Biolinformatics 1 Project.exe
+E:\Biolinformatics 1 Project\Biolinformatics 1 Project\bin\Debug\Biolinformatics 1 Project.pdb
